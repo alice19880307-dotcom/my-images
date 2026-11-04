@@ -11,16 +11,21 @@ my-images/
 
 ## 链接格式
 
-公开仓库的图片有三种常用直链写法（把 `OWNER` 换成 GitHub 用户名）：
+公开仓库的图片有几种常用直链写法（把 `OWNER` 换成 GitHub 用户名）：
 
 | 用途 | URL 格式 |
 | --- | --- |
-| 原始文件（Markdown / HTML 引用） | `https://raw.githubusercontent.com/OWNER/my-images/main/images/文件名.png` |
-| 网页查看 | `https://github.com/OWNER/my-images/blob/main/images/文件名.png` |
-| 国内加速（jsDelivr CDN） | `https://cdn.jsdelivr.net/gh/OWNER/my-images@main/images/文件名.png` |
+| 原始文件（Markdown / HTML 引用） | `https://raw.githubusercontent.com/OWNER/my-images/main/images/文件名.jpg` |
+| 网页查看 | `https://github.com/OWNER/my-images/blob/main/images/文件名.jpg` |
+| **国内直达（推荐）** | `https://testingcf.jsdelivr.net/gh/OWNER/my-images@main/images/文件名.jpg` |
+| 备用代理 | `https://ghproxy.net/https://raw.githubusercontent.com/OWNER/my-images/main/images/文件名.jpg` |
 
-> `raw.githubusercontent.com` 在国内访问常常较慢或不可用，需要稳定访问时优先用 jsDelivr 或 Statically 镜像：
-> `https://cdn.statically.io/gh/OWNER/my-images/main/images/文件名.png`
+实测说明（2026-11-04）：
+
+- `raw.githubusercontent.com` 国内多数网络环境可通，但速度不稳、偶发超时。
+- `cdn.jsdelivr.net` 在国内会被 301 跳回 `raw.githubusercontent.com`，等于没有加速，因此不推荐。
+- `testingcf.jsdelivr.net` 直接返回 200（0 次跳转），是目前最稳的国内通道。
+- `cdn.statically.io` 当前不可访问。
 
 ## 注意
 

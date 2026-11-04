@@ -61,6 +61,8 @@ def main() -> int:
                 "raw": f"https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{encoded}",
                 "blob": f"https://github.com/{owner}/{repo}/blob/{branch}/{encoded}",
                 "jsdelivr": f"https://cdn.jsdelivr.net/gh/{owner}/{repo}@{branch}/{encoded}",
+                "jsdelivr_cf": f"https://testingcf.jsdelivr.net/gh/{owner}/{repo}@{branch}/{encoded}",
+                "ghproxy": f"https://ghproxy.net/https://raw.githubusercontent.com/{owner}/{repo}/{branch}/{encoded}",
             }
         )
 
@@ -71,23 +73,37 @@ def main() -> int:
         "",
         "## 一览表",
         "",
-        "| 文件名 | 原始直链（raw） | 国内加速（jsDelivr） |",
+        "| 文件名 | 原始直链（raw） | 国内直达（testingcf） |",
         "| --- | --- | --- |",
     ]
     for r in rows:
-        lines.append(f"| {r['name']} | {r['raw']} | {r['jsdelivr']} |")
+        lines.append(f"| {r['name']} | {r['raw']} | {r['jsdelivr_cf']} |")
+
+    lines += [
+        "",
+        "## 备用通道（cdn.jsdelivr.net 在国内常会 301 跳回 raw，故不列为主用）",
+        "",
+    ]
+    for r in rows:
+        lines += [
+            f"**{r['name']}**",
+            "",
+            f"- cdn.jsdelivr.net：{r['jsdelivr']}",
+            f"- ghproxy.net：{r['ghproxy']}",
+            "",
+        ]
 
     lines += ["", "## Markdown 引用片段", ""]
     for r in rows:
         lines += [f"### {r['name']}", "", "```markdown", f"![{r['name']}]({r['raw']})", "```", ""]
-        lines += ["国内加速版：", "", "```markdown", f"![{r['name']}]({r['jsdelivr']})", "```", ""]
+        lines += ["国内直达版：", "", "```markdown", f"![{r['name']}]({r['jsdelivr_cf']})", "```", ""]
 
     lines += [
         "## HTML 引用片段",
         "",
         "```html",
         *[
-            f'<img src="{r["jsdelivr"]}" alt="{r["name"]}" />'
+            f'<img src="{r["jsdelivr_cf"]}" alt="{r["name"]}" />'
             for r in rows
         ],
         "```",
